@@ -1,0 +1,27 @@
+{
+  "name": "react-pv4gkw",
+  "description": "",
+  "homepage": "https://stackblitz.com/edit/react-pv4gkw",
+  "dependencies": {
+    "axios": "0.17.0",
+    "brace": "^0.10.0",
+    "font-awesome": "4.7.0",
+    "prop-types": "15.6.0",
+    "react": "15.6.1",
+    "react-ace": "^5.5.0",
+    "react-dom": "15.6.1",
+    "react-fontawesome": "1.6.1",
+    "react-highlight": "^0.10.0",
+    "react-highlight-words": "0.10.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.10"
+  },
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

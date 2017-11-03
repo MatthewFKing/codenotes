@@ -1,0 +1,150 @@
+
+.main {
+  display: flex;
+}
+*{
+  font-family: sans-serif;
+}
+
+.main {
+  width: 50%;
+  margin: 0 auto;
+  background: #c6c9c9;
+  box-shadow: 0 0 26px rgba(0, 0, 0, .13);
+  padding: 2em;
+  border-radius: .35em;
+  height: 50%;
+  max-height: 50%;
+  overflow: scroll;
+}
+
+.new-note-box {
+  background-color: #fcfcfc;
+  width: 100px;
+  height: 25px;
+  border-radius: .35em;
+  padding: .3em;
+  margin: 0 auto;
+  box-shadow: 0 0 26px rgba(0, 0, 0, .13);
+}
+
+.sidebar button {
+  box-shadow: 0 0 26px rgba(0, 0, 0, .13);
+  background: #c6c9c9;
+  border-radius: .35em;
+  padding: .5em;
+  width: 50%;
+}
+
+.note-view{
+  width: 70%;
+  margin: 0 10px;
+}
+
+.sidebar {
+  width: 23%;
+  border: 1px solid black;
+  box-shadow: 0 0 26px rgba(0, 0, 0, .13);
+  height: 100%;
+  border-radius: .35em;
+  display: flex-box;
+  align-items: stretch;
+  flex-flow: row wrap;
+  flex-grow:1;
+}
+
+.sidebar ul li {
+  box-shadow: 0 0 26px rgba(0, 0, 0, .13);
+  border-radius: .35em;
+  padding: .5em;
+  width: 80%;
+  
+}
+
+.sidebar ul {
+  display: inline-block;
+  list-style: none;
+  font-weight: bold;
+  font-style: italic;
+  text-align: left;
+  padding: 1px;
+}
+
+.note textarea {
+    height: 75px;
+  border: none;
+  border-radius: .35em;
+  width: 100%;
+}
+
+.note-input-group textarea {
+  height: 75px;
+  border: none;
+  border-radius: .35em;
+  width: 100%;
+
+}
+
+body {
+  color: #000100;
+  font-size:16px;
+  box-sizing: border-box;
+}
+
+.note-input-group {
+  border-radius: .35em;
+  background-color: #c6c9c9;
+  box-shadow: 0 0 26px rgba(0, 0, 0, .13);
+  width:70%;
+  padding: 1em;
+  margin: 0 auto;
+}
+
+.note {
+  border-radius: .35em;
+  box-shadow: 0 0 26px rgba(0, 0, 0, .13);
+  margin: 1em auto;
+  background: #fcfcfc;
+  width: 70%;
+  padding: 1em;
+}
+
+.note-form input {
+  border: none;
+  border-radius: .35em;
+  width: 100%;
+}
+
+.note button {
+  float: right;
+  width: 2em;
+  height: 2em;
+  border: none;
+  background-color: #d6d3d0;
+  color: #000100;
+  font-size: 16px;
+  text-align: center;
+  visibility: hidden;
+}
+
+.note:hover button {
+  visibility: visible;
+}
+
+.note-form button {
+  border-radius: 0 0 5px 5px;
+  padding:4px 8px;
+  margin-top: 2px;
+}
+
+.note-form {
+  margin: 0 auto;
+  margin-top: 15px;
+  width: 100%;
+  border-radius: .35em;
+}
+
+.sidebar ul li:hover {
+  background-color: aqua;
+  cursor: pointer;
+}
