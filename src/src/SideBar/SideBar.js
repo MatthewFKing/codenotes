@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TagBar from './TagBar';
 import SideNoteBar from './SideNoteBar';
 import {Link} from 'react-router-dom';
+import FontAwesome from 'react-fontawesome';
 
 export default class SideBar extends Component {
   constructor(props) {
@@ -30,9 +31,6 @@ export default class SideBar extends Component {
     });
   }
 
-
-
-
 render() {
   let sideBarView = null;
   if(!this.state.showNotes) {
@@ -46,7 +44,9 @@ render() {
 
   } else {
     sideBarView = <SideNoteBar
-      notes={this.props.notes} />
+      notes={this.props.notes}
+      setNoteFilter={this.props.setNoteFilter}
+      clearTagFilters={this.props.clearTagFilters} />
   }
   return (
   <div className="sidebar">
@@ -59,6 +59,14 @@ render() {
     <button type="button"
       className={this.state.tagActive ? '':"active-button"}
       onClick={() => this.toggleNotes()}>Notes</button>
+  </div>
+  <div className="search-box">
+    <input
+      type='text'
+      value={this.props.searchQuery}
+      onChange={this.props.handleNewNoteInput}
+      name="searchQuery"/>
+    <button><FontAwesome className='fa-search' name="search"/></button>
   </div>
   <Link to="/">
     {sideBarView}

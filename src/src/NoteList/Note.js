@@ -14,7 +14,7 @@ if(props.note.isEditing) {
       setNoteText={props.setNoteText}
       handleRemoveNote={props.handleRemoveNote}
       toggleNoteEditing={props.toggleNoteEditing}
-      handleCodeInput={props.handleCodeInput}/>
+      handleNoteUpdate={props.handleNoteUpdate}/>
   );
   }
   return (
@@ -29,16 +29,16 @@ if(props.note.isEditing) {
   <HighLight className="javascript">
   {props.note.code}
   </HighLight>
-    {props.note.tags.map((tag) =>
-    <i>{tag} </i>
+    {props.note.tags.map((tag, i) =>
+    <i key={i}>{tag} </i>
   )}
   <button onClick={ () =>
     props.handleRemoveNote(props.note._id)}>
-    <FontAwesome className='fa fa-trash'/>
+    <FontAwesome name="trash" className='fa fa-trash'/>
   </button>
   <button onClick={ () =>
     props.toggleNoteEditing(props.note._id)}>
-    <FontAwesome className='fa fa-pencil-square-o'/>
+    <FontAwesome name="edit" className='fa fa-pencil-square-o'/>
   </button>
 </div>
   );

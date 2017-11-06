@@ -7,13 +7,14 @@ const TagBar = props =>{
     return (
       <div>
       <h3 onClick={props.clearTagFilters}>
-        <FontAwesome className='fa fa-arrow-left'/>
+        <FontAwesome name="left" className='fa fa-arrow-left'/>
         {props.tagFilter[0]}
 
       </h3>
      <ul className="subtag-list">
-    {props.subTagSet.map((tag, index) =>
+    {props.subTagSet.map((tag, i) =>
     <li
+      key={i}
       onClick={props.getSubTagFilter}>
       {tag}
     </li>
@@ -26,11 +27,12 @@ return (
   <div>
   <ul className="tag-list">
       <li
-        onClick={props.getTagFilter}>
+        onClick={props.clearTagFilters}>
         View All
       </li>
-      {props.tagSet.map((tag, index) =>
+      {props.tagSet.map((tag, i) =>
         <li
+          key={i}
           onClick={props.getTagFilter}>
           {tag}
         </li>

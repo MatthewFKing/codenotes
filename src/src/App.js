@@ -8,17 +8,17 @@ import { BrowserRouter,
   Route, Switch, NavLink } from 'react-router-dom';
 
 export default class App extends Component {
-//set up Router.
 
   state = {
     tagSet: [],
-    formShowMe: false,
     subTagSet: [],
     tagFilter: [],
+    noteFilter: '',
     pendingCodeText: '',
     pendingNoteText: '',
     pendingNoteTitle: '',
     pendingNoteTags: '',
+    searchQuery: '',
     notes: [],
   };
 
@@ -37,41 +37,9 @@ export default class App extends Component {
       });
   };
 
-
-  toggleNoteEditing = (id) => {
-    this.setState({
-      notes: this.state.notes.map(note => {
-        if(id === note._id) {
-          return {
-            ...note,
-            isEditing: !note.isEditing
-          };
-        }
-        return note;
-      })
-    });
-  }
-
-  updateNoteText = (text, id) => {
-    this.setState({
-      notes: this.state.notes.map(note => {
-        if(id === note._id) {
-          return {
-            ...note,
-            text
-          };
-        }
-        return note;
-      })
-    });
-  }
-
-  clearTagFilters = () => {
-    this.setState({
-      tagFilter: [],
-      subTagSet: []
-    });
-  }
+  setNoteFilter = id => {
+    this.setState({noteFilter: id});
+  };
 
   updateNoteState = (notes) => {
     let tags = [];
@@ -86,21 +54,70 @@ export default class App extends Component {
     return tags;
   };
 
+  //NoteList
+  toggleNoteEditing = (id) => {
+    this.setState({
+      notes: this.state.notes.map(note => {
+        if(id === note._id) {
+          return {
+            ...note,
+            isEditing: !note.isEditing
+          };
+        }
+        return note;
+      })
+    });
+  }
+
+  //upload to server
+  updateNoteText = (e, id) => {
+    let property = '';
+    let value = '';
+    if (!e.target) {
+      property = "code";
+      value = e;
+    } else if (e.target.name === "editNoteText") {
+      property = "text";
+      value = e.target.value;
+    } else {
+      property = "title";
+      value = e.target.value;
+    }
+    this.setState({
+      notes: this.state.notes.map(note => {
+        if(id === note._id) {
+          return {
+            ...note,
+            [property]: value
+          };
+        }
+        return note;
+      })
+    });
+  }
+
+  //Sidebar and NoteList
+  clearTagFilters = () => {
+    this.setState({
+      tagFilter: [],
+      subTagSet: [],
+      noteFilter: false
+    });
+  }
+
+  //Sidebar and NoteList
   generateSubTagList = (currentTag) => {
     let tags = [];
     this.state.notes.filter(note => note.tags.indexOf(currentTag) !== -1)
       .map((note) => {
-        tags = [...tags, ...note.tags];
+        return tags = [...tags, ...note.tags];
       });
     tags = Array.from(new Set(tags));
     tags.splice((tags.indexOf(currentTag)),1);
     return tags;
   }
 
-  switchFormView = () => {
-    this.setState({formShowMe: !this.state.formShowMe});
-  };
-
+  //SideBar
   getTagFilter = (e) => {
     let currentTag = e.target.innerHTML;
     if(e.target.innerHTML !== 'View All') {
@@ -117,6 +134,7 @@ export default class App extends Component {
     }
   }
 
+  //Combine with getTagFilter
   getSubTagFilter = (e) => {
     let subTag = e.target.innerHTML;
     if (this.state.tagFilter.length < 2) {
@@ -136,59 +154,68 @@ export default class App extends Component {
     }
   }
 
-  getTags = () => {
-    let wordList = this.state.pendingNoteText.split(' ');
-    let tagList = [];
-    wordList.map((word, index) => {
-      if(word.charAt(0) === '#') {
-        tagList.push(word);
-      }
-    });
-    return tagList;
-  }
-
+  //NoteForm or NoteList
   handleNewNoteInput = (e) => {
     const name = e.target.name;
     this.setState({[name]: e.target.value});
   }
 
+  //NoteForm
   handleCodeInput = (value) => {
     this.setState({pendingCodeText: value});
   }
 
+  //App
   handleNewNote = e => {
     e.preventDefault();
     let newNote = {
       title: this.state.pendingNoteTitle,
       text: this.state.pendingNoteText,
-      tags: this.getTags(),
       code: this.state.pendingCodeText
     };
     axios.post('http://localhost:3002/', newNote)
       .then(response => {
         this.updateNoteState(response.data);
-        this.setState({formShowMe: false});
+        this.props.history.push('/');
       })
       .catch(error =>{
         console.log(error);
       });
   };
 
+  //App
   handleRemoveNote = id => {
-    this.state.notes.map((note, index) => {
+    this.state.notes.map((note) => {
       if (note._id === id) {
-        return this.setState({
-          notes:[
-          ...this.state.notes.slice(0, index),
-          ...this.state.notes.slice(index+1)
-          ]
-        });
+        axios.delete(`http://localhost:3002/note/${note._id}`)
+          .then(response => {
+            this.updateNoteState(response.data);
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
+      return null;
     });
   };
 
+  handleNoteUpdate = id => {
+    this.state.notes.map((note) => {
+      if(note._id === id) {
+        axios.post('http://localhost:3002/update', note)
+          .then(response => {
+            this.updateNoteState(response.data);
+          })
+          .catch(error =>{
+            console.log(error);
+          });
+      }
+      return null;
+    });
+  }
+
   render() {
-    
+
     return (
     <BrowserRouter>
       <div className="main">
@@ -199,12 +226,15 @@ export default class App extends Component {
         getSubTagFilter={this.getSubTagFilter}
         notes={this.state.notes}
         tagFilter={this.state.tagFilter}
-        clearTagFilters={this.clearTagFilters}/>
+        clearTagFilters={this.clearTagFilters}
+        setNoteFilter={this.setNoteFilter}
+        searchQuery={this.state.searchQuery}
+        handleNewNoteInput={this.handleNewNoteInput}/>
 
     <div className="note-view">
     <div className="new-note-box">
       <NavLink to="/new">
-        <FontAwesome className='fa-plus'/>
+        <FontAwesome className='fa-plus' name="plus"/>
          Add a Note
       </NavLink>
       </div>
@@ -216,7 +246,9 @@ export default class App extends Component {
           tagFilter={this.state.tagFilter}
           toggleNoteEditing={this.toggleNoteEditing}
           updateNoteText={this.updateNoteText}
-          handleCodeInput={this.handleCodeInput}
+          handleNoteUpdate={this.handleNoteUpdate}
+          noteFilter={this.state.noteFilter}
+          searchQuery={this.state.searchQuery}
         />} />
         <Route path="/new" render={ () => <NoteForm
           pendingNoteText={this.state.pendingNoteText}

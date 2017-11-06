@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import FontAwesome from 'react-fontawesome';
-import brace from 'brace';
 import AceEditor from 'react-ace';
+import { withRouter } from 'react-router-dom';
+
 
 import 'brace/mode/javascript';
 import 'brace/mode/css';
@@ -14,7 +15,7 @@ let braceStyle = {
   width: "100%"
 };
 
-export default class NoteForm extends Component {
+class NoteForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,6 +34,10 @@ export default class NoteForm extends Component {
       language: e.target.innerHTML,
       toggleLanguage: false
     });
+  }
+
+  returnHome = () => {
+    this.props.history.push('/');
   }
 
 render() {
@@ -87,14 +92,13 @@ render() {
         <div className="form-buttons">
         {languageButton}
           </div>
-        <button type="submit"><FontAwesome className='fa fa-floppy-o'/></button>
+        <button type="submit" onClick={this.returnHome}><FontAwesome className='fa fa-floppy-o'/></button>
         <button type="button" onClick={() => this.props.switchFormView()}><FontAwesome className='fa fa-times'/></button>
-
-
-
       </div>
     </form>
   </div>
 </div>
 )}
 }
+
+export default withRouter(NoteForm);

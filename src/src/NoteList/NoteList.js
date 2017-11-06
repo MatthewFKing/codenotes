@@ -1,31 +1,35 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 import Note from './Note';
 
-const NoteList = props =>
-    <div>
-      {props.notes.filter((note) =>
-        props.tagFilter.length > 0
-          ? props.tagFilter.every((tag) => note.tags.indexOf(tag) > -1)
-          : note )
-        .map((note, index) =>
-        <Note
-          note={note}
-          handleRemoveNote={props.handleRemoveNote}
-          toggleNoteEditing={props.toggleNoteEditing}
-          setNoteText={text => props.updateNoteText(text, note._id)}
-          handleCodeInput={props.handleCodeInput}/>
-      )}
-    </div>;
+export default class NoteList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
 
-    NoteList.PropTypes = {
-      notes: PropTypes.array.isRequired,
-      handleNewNoteInput: PropTypes.func.isRequired,
-      handleNewNote: PropTypes.func.isRequired,
-      handleRemoveNote: PropTypes.func.isRequired,
-      handleKeyPress: PropTypes.func.isRequired,
-      tagFilter: PropTypes.array.isRequired,
     }
-
-export default NoteList;
+  }
+  render() {
+    if (!this.props.notes) {
+      return <p> Loading Notes </p>
+    }
+    return (
+    <div>
+      {this.props.notes.filter((note) =>
+        this.props.noteFilter ? note._id === this.props.noteFilter
+        : this.props.tagFilter.length > 0 ? this.props.tagFilter.every((tag) => note.tags.indexOf(tag) > -1)
+        : this.props.searchQuery ? note.title.toLowerCase().indexOf(this.props.searchQuery.toLowerCase()) > -1
+        || note.text.toLowerCase().indexOf(this.props.searchQuery.toLowerCase()) > -1
+        : note )
+        .map((note, i) =>
+        <Note
+          key={i}
+          note={note}
+          handleRemoveNote={this.props.handleRemoveNote}
+          toggleNoteEditing={this.props.toggleNoteEditing}
+          setNoteText={e => this.props.updateNoteText(e, note._id)}
+          handleNoteUpdate={this.props.handleNoteUpdate}/>
+      )}
+    </div>
+  )}
+}

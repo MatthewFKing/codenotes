@@ -1,5 +1,4 @@
 import React from 'react';
-import brace from 'brace';
 import AceEditor from 'react-ace';
 
 import 'brace/mode/javascript';
@@ -17,14 +16,14 @@ const EditNote = props =>
   <input
     type="text"
     value={props.note.title}
-    onChange={props.handleNewNoteInput}
-    name="pendingNoteTitle">
+    onChange={props.setNoteText}
+    name="editNoteTitle">
   </input>
   <textarea
     type="text"
     value={props.note.text}
-    onChange={e => props.setNoteText(e.target.value)}
-    name="pendingNoteText">
+    onChange={props.setNoteText}
+    name="editNoteText">
   </textarea>
   <AceEditor
     mode="javascript"
@@ -32,15 +31,15 @@ const EditNote = props =>
     editorProps={{$blockScrolling: true}}
     name="pendingCodeText"
     value={props.note.code}
-  onChange={props.handleCodeInput}
+  onChange={props.setNoteText}
   style={braceStyle}/>
 
   <button onClick={ () =>
-    props.handleRemoveNote(props.note._id)}>
-    x
+    props.toggleNoteEditing(props.note._id)}>
+    cancel
   </button>
   <button onClick={ () =>
-    props.toggleNoteEditing(props.note._id)}>
+    props.handleNoteUpdate(props.note._id)}>
     save
   </button>
 </div>;

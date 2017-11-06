@@ -83,11 +83,16 @@ mark {
   font-weight: 600;
   color: #fff;
   letter-spacing: 1px;
+
 }
 
 .sidebar ul li:hover {
   cursor: pointer;
   background-color: #2f3e46;
+}
+
+.sidebar a {
+  text-decoration: none;
 }
 
 .note {
@@ -101,7 +106,7 @@ mark {
 }
 
 .note input {
-    width: 100%;
+  width: 100%;
   margin-bottom: 0px;
   border-radius: 5px 5px 0px 0px;
   font-size:1em;
@@ -127,15 +132,16 @@ mark {
   margin: 0px auto;
 }
 
-.new-note-box button {
+.new-note-box a {
   border: 2px solid #727072;
   color: white;
   background-color: #2f3e46;
   padding: 5px;
   border-radius: 0px 0px 5px 5px;
+  text-decoration: none;
 }
 
-.new-note-box button:hover {
+.new-note-box a:hover {
   cursor: pointer;
   background-color: #727072;
 }
@@ -195,4 +201,28 @@ mark {
 .form-buttons li:hover{
   background-color: rgb(100, 100, 221);
   cursor: pointer;
+}
+
+.search-box input {
+  width: 75%;
+  height: 23px;
+  padding: 1px;
+  border: none;
+}
+
+.search-box button {
+  width: 20%;
+  height: 25px;
+  padding: 0;
+}
+
+.search-box span {
+  padding: 0;
+}
+
+.search-box {
+  text-align: center;
+  height: 20px;
+  padding: 5px;
+  display: flex;
 }
