@@ -5,7 +5,9 @@
   "dependencies": {
     "axios": "0.17.0",
     "brace": "^0.10.0",
+    "es6-promise": "^4.1.1",
     "font-awesome": "4.7.0",
+    "isomorphic-fetch": "^2.2.1",
     "prop-types": "15.6.0",
     "react": "15.6.1",
     "react-ace": "^5.5.0",

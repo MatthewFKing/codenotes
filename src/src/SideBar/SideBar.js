@@ -6,11 +6,12 @@ import FontAwesome from 'react-fontawesome';
 
 export default class SideBar extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       showNotes: false,
       tagActive: true,
-    }
+      
+    };
     this.toggleTags = this.toggleTags.bind(this);
   }
 
