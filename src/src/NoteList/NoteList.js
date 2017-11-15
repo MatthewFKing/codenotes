@@ -17,7 +17,7 @@ export default class NoteList extends Component {
     <div>
       {this.props.notes.filter((note) =>
         this.props.noteFilter ? note._id === this.props.noteFilter
-        : this.props.tagFilter.length > 0 ? this.props.tagFilter.every((tag) => note.tags.indexOf(tag) > -1)
+        : this.props.tagFilters.length > 0 ? this.props.tagFilters.every((tag) => note.tags.indexOf(tag) > -1)
         : this.props.searchQuery ? note.title.toLowerCase().indexOf(this.props.searchQuery.toLowerCase()) > -1
         || note.text.toLowerCase().indexOf(this.props.searchQuery.toLowerCase()) > -1
         : note )

@@ -10,7 +10,7 @@ export default class SideBar extends Component {
     this.state = {
       showNotes: false,
       tagActive: true,
-      
+
     };
     this.toggleTags = this.toggleTags.bind(this);
   }
@@ -40,7 +40,7 @@ render() {
     subTagSet={this.props.subTagSet}
     getTagFilter={this.props.getTagFilter}
     getSubTagFilter={this.props.getSubTagFilter}
-    tagFilter={this.props.tagFilter}
+    tagFilters={this.props.tagFilters}
     clearTagFilters={this.props.clearTagFilters}/>
 
   } else {

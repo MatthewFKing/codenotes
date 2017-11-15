@@ -64,35 +64,35 @@ render() {
   return (
 <div>
   <div className="note-form">
-    <form onSubmit={this.props.handleNewNote}>
+    <form >
       <div className="note-input-group">
         <label><strong> Add a Note:</strong> </label>
         <input
           type="text"
           placeholder="Title"
-          value={this.props.pendingNoteTitle}
+          value={this.props.pendingText.title}
           onChange={this.props.handleNewNoteInput}
-          name="pendingNoteTitle">
+          name="title">
         </input>
         <textarea
           placeholder="Add a Note"
           onChange={this.props.handleNewNoteInput}
           onKeyPress={this.props.handleKeyPress}
-          value={this.props.pendingNoteText}
-          name="pendingNoteText">
+          value={this.props.pendingText.body}
+          name="body">
         </textarea>
         <AceEditor
           mode={this.state.language}
           theme="clouds_midnight"
           editorProps={{$blockScrolling: true}}
-          name="pendingCodeText"
-          value={this.props.pendingCodeText}
+          name="code"
+          value={this.props.pendingText.code}
         onChange={this.props.handleCodeInput}
         style={braceStyle}/>
         <div className="form-buttons">
         {languageButton}
           </div>
-        <button type="submit" onClick={this.returnHome}><FontAwesome className='fa fa-floppy-o'/></button>
+        <button type="submit" onClick={this.props.handleNewNote}><FontAwesome className='fa fa-floppy-o'/></button>
         <button type="button" onClick={() => this.props.switchFormView()}><FontAwesome className='fa fa-times'/></button>
       </div>
     </form>

@@ -1,10 +1,12 @@
+import 'babel-polyfill';
+
 import React from 'react';
 import { render } from 'react-dom';
-import App from './src/App';
+import Root from './src/Root';
 import './style.css';
 import 'font-awesome/css/font-awesome.css'
 
 
 
 
-render(<App />, document.getElementById('root'));
+render(<Root />, document.getElementById('root'));
