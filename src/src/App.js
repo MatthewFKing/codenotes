@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import NoteList from './NoteList/NoteList';
 import SideBar from './SideBar/SideBar';
-import axios from 'axios';
 import NoteForm from './NoteForm';
 import FontAwesome from 'react-fontawesome';
 import { BrowserRouter,
@@ -12,7 +11,10 @@ import {
   setTagFilters,
   createNote,
   toggleEditing,
-  postNote
+  postNote,
+  updateNoteText,
+  postUpdatedNote,
+  deleteNote
 } from './actions/note';
 import { connect } from 'react-redux';
 
@@ -52,7 +54,7 @@ class App extends Component {
       value = e.target.value;
     }
     const { dispatch } = this.props;
-    dispatch(createNote(property, value));
+    dispatch(updateNoteText(id, property, value));
   }
 
   clearTagFilters = () => {
@@ -97,45 +99,27 @@ class App extends Component {
     };
     const { dispatch } = this.props;
     dispatch(postNote(newNote));
-    // axios.post('http://localhost:3002/', newNote)
-    //   .then(response => {
-    //     this.updateNoteState(response.data);
-    //     this.props.history.push('/');
-    //   })
-    //   .catch(error =>{
-    //     console.log(error);
-    //   });
   };
 
   //App
   handleRemoveNote = id => {
-    this.state.notes.map((note) => {
+    const { dispatch } = this.props;
+    this.props.notes.map((note) => {
       if (note._id === id) {
-        axios.delete(`http://localhost:3002/note/${note._id}`)
-          .then(response => {
-            this.updateNoteState(response.data);
-          })
-          .catch(err => {
-            console.log(err);
-          });
+        dispatch(deleteNote(note));
       }
       return null;
     });
   };
 
   handleNoteUpdate = id => {
-    this.state.notes.map((note) => {
+    const { dispatch } = this.props;
+    this.props.notes.map((note) => {
       if(note._id === id) {
-        axios.post('http://localhost:3002/update', note)
-          .then(response => {
-            this.updateNoteState(response.data);
-          })
-          .catch(error =>{
-            console.log(error);
-          });
+        dispatch(postUpdatedNote(note));
       }
-      return null;
     });
+    return null;
   }
 
   render() {

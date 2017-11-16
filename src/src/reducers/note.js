@@ -6,7 +6,9 @@ import {
   RECEIVE_TAGS,
   SET_TAG_FILTERS,
   CREATE_NOTE,
-  TOGGLE_EDITING
+  TOGGLE_EDITING,
+  CLEAR_PENDING_TEXT,
+  UPDATE_NOTE_TEXT
 } from '../actions/note';
 
 const initialState = {
@@ -19,7 +21,7 @@ const initialState = {
     code: "",
     body: "",
     title: ""
-  }
+}
 }
 
 export default function notes(state = initialState, action) {
@@ -60,10 +62,42 @@ export default function notes(state = initialState, action) {
         }
       }
       }
-    case CREATE_NOTE:
-      return Object.assign({}, state, {
-        pendingText: {[action.target]: action.text}
-      });
+    case CREATE_NOTE: {
+      const pendingInput = {
+        ...state.pendingText,
+        [action.target]: action.text
+      }
+        return {
+          ...state,
+          pendingText: pendingInput
+        }
+      }
+
+      case CLEAR_PENDING_TEXT: {
+        return Object.assign({}, state, {
+          pendingText: {
+            code: "",
+            body: "",
+            title: ""
+          }
+        });
+      }
+
+      case UPDATE_NOTE_TEXT: {
+        const updatedNote = state.notes.map(note => {
+          if (note._id === action.id) {
+            return {
+              ...note,
+              [action.property]: action.value
+            }
+          }
+          return note;
+        })
+        return {
+          ...state,
+          notes: updatedNote
+        }
+      }
 
     case TOGGLE_EDITING: {
       const noteEditing = state.notes.map(note => {

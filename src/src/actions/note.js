@@ -7,7 +7,8 @@ export const RECEIVE_TAGS = 'RECEIVE_TAGS';
 export const SET_TAG_FILTERS = 'SET_TAG_FILTERS';
 export const CREATE_NOTE = 'CREATE_NOTE';
 export const TOGGLE_EDITING = 'TOGGLE_EDITING';
-export const POST_NOTE = 'POST_NOTE';
+export const CLEAR_PENDING_TEXT = 'CLEAR_PENDING_TEXT';
+export const UPDATE_NOTE_TEXT = 'UPDATE_NOTE_TEXT';
 
 export const fetchNotes = () => {
   return function(dispatch) {
@@ -28,12 +29,42 @@ export const fetchNotes = () => {
 export const postNote = (note) => {
   return (dispatch) => {
     return axios.post('http://localhost:3002/', note)
-      .then(response => {
-        dispatch(receiveNotes(response))
-      .then(response => {
-        dispatch(receiveTags(response))
+      .then(
+        () => dispatch(fetchNotes()),
+        error => console.log(error.response.data)
+      )
+      .then(() => {
+        dispatch(clearPendingText())
       })
-      })
+  }
+}
+
+export const postUpdatedNote = (note) => {
+  return (dispatch) => {
+    return axios.post('http://localhost:3002/update', note)
+      .then(
+        () => dispatch(fetchNotes()),
+        error => console.log(error.response.data)
+      )
+  }
+}
+
+export const deleteNote = (note) => {
+  return (dispatch) => {
+    return axios.delete(`http://localhost:3002/note/${note._id}`)
+      .then(
+        () => dispatch(fetchNotes()),
+        error => console.log(error.response.data)
+      )
+  }
+}
+
+export const updateNoteText = (id, property, value) => {
+  return {
+    type: UPDATE_NOTE_TEXT,
+    id,
+    property,
+    value
   }
 }
 
@@ -70,6 +101,12 @@ export const createNote = (target, text) => {
     type: CREATE_NOTE,
     target,
     text
+  }
+}
+
+export const clearPendingText = () => {
+  return {
+    type: CLEAR_PENDING_TEXT
   }
 }
 
