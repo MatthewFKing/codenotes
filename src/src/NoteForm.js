@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import FontAwesome from 'react-fontawesome';
 import AceEditor from 'react-ace';
-import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
+import {
+  createNote,
+  postNote,
+} from './actions/note';
 
 import 'brace/mode/javascript';
 import 'brace/mode/css';
@@ -39,6 +43,28 @@ class NoteForm extends Component {
   returnHome = () => {
     this.props.history.push('/');
   }
+  
+  handleNewNoteInput = (e) => {
+    const name = e.target.name;
+    const { dispatch } = this.props;
+    dispatch(createNote(name, e.target.value));
+  }
+  
+  handleCodeInput = (value) => {
+    const { dispatch } = this.props;
+    dispatch(createNote("code", value));
+  }
+  
+  handleNewNote = e => {
+    e.preventDefault();
+    let newNote = {
+      title: this.props.pendingText.title,
+      text: this.props.pendingText.body,
+      code: this.props.pendingText.code
+    };
+    const { dispatch } = this.props;
+    dispatch(postNote(newNote));
+  };
 
 render() {
   let languageButton = null;
@@ -66,32 +92,38 @@ render() {
   <div className="note-form">
     <form >
       <div className="note-input-group">
+      
         <label><strong> Add a Note:</strong> </label>
+        
         <input
           type="text"
           placeholder="Title"
           value={this.props.pendingText.title}
-          onChange={this.props.handleNewNoteInput}
+          onChange={this.handleNewNoteInput}
           name="title">
         </input>
+        
         <textarea
           placeholder="Add a Note"
-          onChange={this.props.handleNewNoteInput}
+          onChange={this.handleNewNoteInput}
           onKeyPress={this.props.handleKeyPress}
           value={this.props.pendingText.body}
           name="body">
         </textarea>
+        
         <AceEditor
           mode={this.state.language}
           theme="clouds_midnight"
           editorProps={{$blockScrolling: true}}
           name="code"
           value={this.props.pendingText.code}
-        onChange={this.props.handleCodeInput}
-        style={braceStyle}/>
+          onChange={this.props.handleCodeInput}
+          style={braceStyle}
+        />
+        
         <div className="form-buttons">
-        {languageButton}
-          </div>
+          {languageButton}
+        </div>
         <button type="submit" onClick={this.props.handleNewNote}><FontAwesome className='fa fa-floppy-o'/></button>
         <button type="button" onClick={() => this.props.switchFormView()}><FontAwesome className='fa fa-times'/></button>
       </div>
@@ -101,4 +133,8 @@ render() {
 )}
 }
 
-export default withRouter(NoteForm);
+const mapStateToProps = state => ({
+  pendingText: state.pendingText
+});
+
+export default connect(mapStateToProps)(NoteForm);

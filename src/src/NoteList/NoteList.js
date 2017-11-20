@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import Note from './Note';
 
-export default class NoteList extends Component {
+class NoteList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,7 +12,7 @@ export default class NoteList extends Component {
   }
   render() {
     if (!this.props.notes) {
-      return <p> Loading Notes </p>
+      return <p> Loading Notes... </p>
     }
     return (
     <div>
@@ -28,8 +29,15 @@ export default class NoteList extends Component {
           handleRemoveNote={this.props.handleRemoveNote}
           toggleNoteEditing={this.props.toggleNoteEditing}
           setNoteText={e => this.props.updateNoteText(e, note._id)}
-          handleNoteUpdate={this.props.handleNoteUpdate}/>
+          handleNoteUpdate={this.props.handleNoteUpdate}
+        />
       )}
     </div>
   )}
 }
+
+const mapStateToProps = state => ({
+  searchQuery: state.searchQuery
+});
+
+export default connect(mapStateToProps)(NoteList);

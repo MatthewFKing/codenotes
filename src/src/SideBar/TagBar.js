@@ -3,7 +3,7 @@ import FontAwesome from 'react-fontawesome';
 
 
 const TagBar = props =>{
-  if (props.subTagSet.length > 0){
+  if (props.tagFilters.length > 0){
     return (
       <div>
       <h3 onClick={props.clearTagFilters}>

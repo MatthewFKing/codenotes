@@ -3,8 +3,13 @@ import TagBar from './TagBar';
 import SideNoteBar from './SideNoteBar';
 import {Link} from 'react-router-dom';
 import FontAwesome from 'react-fontawesome';
+import { connect } from 'react-redux';
 
-export default class SideBar extends Component {
+import {
+  setSearchFilter
+} from '../actions/note';
+
+class SideBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -65,7 +70,7 @@ render() {
     <input
       type='text'
       value={this.props.searchQuery}
-      onChange={this.props.handleNewNoteInput}
+      onChange={(e) => this.props.setSearchFilter(e.target.value)}
       name="searchQuery"/>
     <button><FontAwesome className='fa-search' name="search"/></button>
   </div>
@@ -75,3 +80,13 @@ render() {
   </div>
   )}
 }
+
+const mapStateToProps = state => ({
+  searchQuery: state.searchQuery
+});
+
+const mapDispatchToProps = dispatch => ({
+  setSearchFilter: (text) => dispatch(setSearchFilter(text)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

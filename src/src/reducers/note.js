@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+//import { combineReducers } from 'redux';
 
 import {
   REQUEST_NOTES,
@@ -8,7 +8,8 @@ import {
   CREATE_NOTE,
   TOGGLE_EDITING,
   CLEAR_PENDING_TEXT,
-  UPDATE_NOTE_TEXT
+  UPDATE_NOTE_TEXT,
+  SET_SEARCH_FILTER
 } from '../actions/note';
 
 const initialState = {
@@ -30,21 +31,28 @@ export default function notes(state = initialState, action) {
       return Object.assign({}, state, {
         isFetching: true
       })
+      
     case RECEIVE_NOTES:
       return Object.assign({}, state, {
         isFetching: false,
         notes: action.notes,
         lastUpdated: action.receivedAt
       })
+      
     case RECEIVE_TAGS:{
       let tagList = [];
-       state.notes.map(note => {
-        return tagList = [...tagList, ...note.tags];
-      });
-      return {
-        ...state, tags: Array.from(new Set(tagList))
+      if (state.notes) {
+        state.notes.map(note => {
+          return tagList = [...tagList, ...note.tags];
+        });
+        return {
+          ...state, tags: Array.from(new Set(tagList))
+        }
+      } else {
+        return state
       }
     }
+    
     case SET_TAG_FILTERS: {
       if (action.tag.toLowerCase() === "view all") {
         return Object.assign({}, state, {
@@ -61,7 +69,14 @@ export default function notes(state = initialState, action) {
           tagFilters: [...state.tagFilters, ...[action.tag]]
         }
       }
-      }
+    }
+    
+    case SET_SEARCH_FILTER: {
+      return Object.assign({}, state, {
+        searchQuery: action.text
+      });
+    }
+    
     case CREATE_NOTE: {
       const pendingInput = {
         ...state.pendingText,
@@ -114,6 +129,7 @@ export default function notes(state = initialState, action) {
         notes: noteEditing
       }
     }
+    
     default:
       return state
   }
