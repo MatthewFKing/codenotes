@@ -13,6 +13,7 @@ let braceStyle = {
 
 const EditNote = props =>
 <div className="note">
+<div className="edit-note">
   <input
     type="text"
     value={props.note.title}
@@ -31,8 +32,9 @@ const EditNote = props =>
     editorProps={{$blockScrolling: true}}
     name="pendingCodeText"
     value={props.note.code}
-  onChange={props.setNoteText}
-  style={braceStyle}/>
+    onChange={props.setNoteText}
+    style={braceStyle}
+  />
 
   <button onClick={ () =>
     props.toggleNoteEditing(props.note._id)}>
@@ -42,6 +44,7 @@ const EditNote = props =>
     props.handleNoteUpdate(props.note._id)}>
     save
   </button>
+</div>
 </div>;
 
 export default EditNote;

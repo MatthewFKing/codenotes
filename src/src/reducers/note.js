@@ -9,12 +9,29 @@ import {
   TOGGLE_EDITING,
   CLEAR_PENDING_TEXT,
   UPDATE_NOTE_TEXT,
-  SET_SEARCH_FILTER
+  SET_SEARCH_FILTER,
+  CLEAR_TAG_FILTERS,
+  SET_NOTE_FILTER
 } from '../actions/note';
 
 const initialState = {
   isFetching: false,
-  notes: [],
+  notes: [
+    {
+      title: "Note Number One",
+      text: "#note #first #test",
+      code: "This is the code for the first note",
+      tags: ["#note", "#first", "#test"],
+      _id: "123"
+    },
+    {
+      title: "Note Number Two",
+      text: "#note #second #test",
+      code: "This is the code for the second note",
+      tags: ["#note", "#second", "#test"],
+      _id: "321"
+    },
+    ],
   tags: [],
   tagFilters: [],
   subTagSet: [],
@@ -54,21 +71,46 @@ export default function notes(state = initialState, action) {
     }
     
     case SET_TAG_FILTERS: {
-      if (action.tag.toLowerCase() === "view all") {
-        return Object.assign({}, state, {
-          tagFilters: []
-        });
-      } else if (state.tagFilters.length === 2) {
+      if (state.tagFilters.length === 2) {
+        let subTags = [];
+        state.notes.filter(note => note.tags.indexOf(state.tagFilters[0]) !== -1)
+          .map((note) => {
+            return subTags = [...subTags, ...note.tags];
+          });
+        subTags = Array.from(new Set(subTags));
+        subTags.splice((subTags.indexOf(state.tagFilters[0])),1);
         return {
           ...state,
-          tagFilters: [...state.tagFilters.slice(0, -1), ...[action.tag]]
+          tagFilters: [...state.tagFilters.slice(0, -1), ...[action.tag]],
+          subTagSet: subTags
         }
       } else {
+        let subTags = [];
+        state.notes.filter(note => note.tags.indexOf(action.tag) !== -1)
+          .map((note) => {
+            return subTags = [...subTags, ...note.tags];
+          });
+        subTags = Array.from(new Set(subTags));
+        subTags.splice((subTags.indexOf(action.tag)),1);
         return {
           ...state,
-          tagFilters: [...state.tagFilters, ...[action.tag]]
+          tagFilters: [...state.tagFilters, ...[action.tag]],
+          subTagSet: subTags
         }
       }
+    }
+    
+    case CLEAR_TAG_FILTERS: {
+      return Object.assign({}, state, {
+        tagFilters: [],
+        noteFilter: ''
+      })
+    }
+    
+    case SET_NOTE_FILTER: {
+      return Object.assign({}, state, {
+        noteFilter: action.id
+      })
     }
     
     case SET_SEARCH_FILTER: {

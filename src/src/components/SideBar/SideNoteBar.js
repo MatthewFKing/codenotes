@@ -3,7 +3,7 @@ import React from 'react';
 
 const SideNoteBar = props =>
   <div>
-  <ul className="tag-list">
+  <ul className="tag-list nav sidebar-nav">
     <li
       onClick={props.clearTagFilters}>
       View All

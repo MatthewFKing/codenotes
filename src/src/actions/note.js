@@ -9,6 +9,8 @@ export const TOGGLE_EDITING = 'TOGGLE_EDITING';
 export const CLEAR_PENDING_TEXT = 'CLEAR_PENDING_TEXT';
 export const UPDATE_NOTE_TEXT = 'UPDATE_NOTE_TEXT';
 export const SET_SEARCH_FILTER = 'SET_SEARCH_FILTER';
+export const CLEAR_TAG_FILTERS = "CLEAR_TAG_FILTERS";
+export const SET_NOTE_FILTER = "SET_NOTE_FILTER";
 
 export const fetchNotes = () => {
   return (dispatch) => {
@@ -55,6 +57,15 @@ export const deleteNote = (note) => {
       )
   }
 }
+
+export const clearTagFilters = () => ({
+  type: CLEAR_TAG_FILTERS
+})
+
+export const setNoteFilter = (id) => ({
+  type: SET_NOTE_FILTER,
+  id
+})
 
 export const updateNoteText = (id, property, value) => ({
     type: UPDATE_NOTE_TEXT,

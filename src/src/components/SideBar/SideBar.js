@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import TagBar from './TagBar';
 import SideNoteBar from './SideNoteBar';
-import {Link} from 'react-router-dom';
 import FontAwesome from 'react-fontawesome';
 import { connect } from 'react-redux';
 
 import {
-  setSearchFilter
+  setSearchFilter,
+  clearTagFilters,
+  setNoteFilter
 } from '../../actions/note';
 
 class SideBar extends Component {
@@ -46,47 +47,50 @@ render() {
     getTagFilter={this.props.getTagFilter}
     getSubTagFilter={this.props.getSubTagFilter}
     tagFilters={this.props.tagFilters}
-    clearTagFilters={this.props.clearTagFilters}/>
+    clearTagFilters={this.props.clearTagFilters}
+    notes={this.props.notes} />
 
   } else {
     sideBarView = <SideNoteBar
       notes={this.props.notes}
       setNoteFilter={this.props.setNoteFilter}
-      clearTagFilters={this.props.clearTagFilters} />
+      clearTagFilters={(id) => this.props.clearTagFilters(id)} />
   }
   return (
-  <div className="sidebar">
-  <div>
+  <nav className="navbar navbar-inverse"  id="sidebar-wrapper">
     <button type="button"
-      className={this.state.tagActive ? "active-button":''}
+      className={this.state.tagActive ? "active-button":'inactive-button'}
       onClick={() => this.toggleTags()}>
       Tags
     </button>
     <button type="button"
       className={this.state.tagActive ? '':"active-button"}
-      onClick={() => this.toggleNotes()}>Notes</button>
-  </div>
-  <div className="search-box">
-    <input
-      type='text'
-      value={this.props.searchQuery}
-      onChange={(e) => this.props.setSearchFilter(e.target.value)}
-      name="searchQuery"/>
-    <button><FontAwesome className='fa-search' name="search"/></button>
-  </div>
-  <Link to="/">
+      onClick={() => this.toggleNotes()}>Notes
+    </button>
+    <div className="search-box">
+      <input
+        placeholder="search notes"
+        type='text'
+        value={this.props.searchQuery}
+        onChange={(e) => this.props.setSearchFilter(e.target.value)}
+        name="searchQuery"/>
+      <button><FontAwesome className='fa-search' name="search"/></button>
+    </div>
     {sideBarView}
-  </Link>
-  </div>
+  </nav>
   )}
 }
 
 const mapStateToProps = state => ({
-  searchQuery: state.searchQuery
+  searchQuery: state.searchQuery,
+  notes: state.notes,
+  subTagSet: state.subTagSet
 });
 
 const mapDispatchToProps = dispatch => ({
   setSearchFilter: (text) => dispatch(setSearchFilter(text)),
+  clearTagFilters: () => dispatch(clearTagFilters()),
+  setNoteFilter: (id) => dispatch(setNoteFilter(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

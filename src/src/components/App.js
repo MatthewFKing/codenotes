@@ -19,17 +19,11 @@ import {
 
 class App extends Component {
   state = {
-    subTagSet: [],
-    noteFilter: '',
   };
 
   componentDidMount(){
     this.props.fetchNotes();
   }
-
-  setNoteFilter = id => {
-    this.setState({noteFilter: id});
-  };
 
   toggleNoteEditing = (id) => {
     this.props.toggleEditing(id);
@@ -50,25 +44,6 @@ class App extends Component {
     }
     const { dispatch } = this.props;
     dispatch(updateNoteText(id, property, value));
-  }
-
-  clearTagFilters = () => {
-    this.setState({
-      tagFilter: [],
-      subTagSet: [],
-      noteFilter: false
-    });
-  }
-
-  generateSubTagList = (currentTag) => {
-    let tags = [];
-    this.props.notes.filter(note => note.tags.indexOf(currentTag) !== -1)
-      .map((note) => {
-        return tags = [...tags, ...note.tags];
-      });
-    tags = Array.from(new Set(tags));
-    tags.splice((tags.indexOf(currentTag)),1);
-    return tags;
   }
 
   getTagFilter = (e) => {
@@ -101,12 +76,7 @@ class App extends Component {
       <SideBar
         tagSet={this.props.tags}
         getTagFilter={this.getTagFilter}
-        subTagSet={this.state.subTagSet}
-        getSubTagFilter={this.getSubTagFilter}
-        notes={this.props.notes}
         tagFilters={this.props.tagFilters}
-        clearTagFilters={this.clearTagFilters}
-        setNoteFilter={this.setNoteFilter}
       />
 
     <div className="note-view">
@@ -125,7 +95,7 @@ class App extends Component {
           toggleNoteEditing={this.toggleNoteEditing}
           updateNoteText={this.updateNoteText}
           handleNoteUpdate={this.handleNoteUpdate}
-          noteFilter={this.state.noteFilter}
+          noteFilter={this.props.noteFilter}
         />
 
     </div>
@@ -140,6 +110,7 @@ class App extends Component {
       tags: state.tags,
       tagFilters: state.tagFilters,
       pendingText: state.pendingText,
+      noteFilter: state.noteFilter
     });
 
   const mapDispatchToProps = dispatch => ({
