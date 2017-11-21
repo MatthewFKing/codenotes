@@ -13,22 +13,19 @@ export const SET_SEARCH_FILTER = 'SET_SEARCH_FILTER';
 export const fetchNotes = () => {
   return (dispatch) => {
     dispatch(requestNotes());
-    return axios.get("0.0.0.0:8000/")
+    return axios.get("http://localhost:3002/")
       .then(
-        response => response.json(),
+        response => dispatch(receiveNotes(response.data)),
         error => console.log("fetch error", error)
       )
-      .then(json =>
-        dispatch(receiveNotes(json))
-      )
-      .then(json =>
-      dispatch(receiveTags(json)))
+      .then(response =>
+      dispatch(receiveTags(response)))
   }
 };
 
 export const postNote = (note) => {
   return (dispatch) => {
-    return axios.post('0.0.0.0:8000/', note)
+    return axios.post('http://localhost:3002/', note)
       .then(
         () => dispatch(fetchNotes()),
         error => console.log(error)

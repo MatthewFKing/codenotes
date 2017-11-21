@@ -9,40 +9,38 @@
     letter-spacing: 0 !important;
 }
 
+body {
+  margin: 0;
+  background-color: #FFF;
+}
+
 .main {
-  width: 1400px;
-  height: 800px;
-  background-color: #2f3e46;
+  width: 100%;
+
   color: white;
-  margin: 0 auto;
-  border-radius: 5px;
-  overflow: scroll;
 }
 
 .note-view {
-  width: 80%;
-  float: right;
+  width: 100%;
 }
 
 mark {
-  background-color: #fff;
+  background-color: #f5f2f0;
   color: #0d21a1;
   font-weight: bold;
 }
 
 .sidebar {
   float: left;
-  width: 15%;
-  height: 100%;
-  background-color: #727072;
-  border-radius: 5px 0px 0px 5px;
-  top: 0px;
+  width: 10%;
+  background-color: #f5f2f0;
   position: sticky;
+  top: 0;
 }
 
 .sidebar h3:hover {
   cursor: pointer;
-  background-color: #2f3e46;
+  background-color: #f5f2f0;
 }
 
 .sidebar h3 {
@@ -57,13 +55,14 @@ mark {
   width: 50%;
   font-weight: bold;
   padding: 5px;
+  background-color: #f5f2f0;
 }
 
 .sidebar ul {
   list-style: none;
-  background-color: #727072;
+  background-color: #f5f2f0;
   text-align: left;
-  padding: 0px;
+  padding: 10px;
 }
 
 .sidebar button {
@@ -78,12 +77,11 @@ mark {
 }
 
 .sidebar ul li {
-  padding: 5px;
+  padding: 10px;
   border-bottom: 1px solid #2f3e46;
   font-weight: 600;
-  color: #fff;
   letter-spacing: 1px;
-
+  color: black;
 }
 
 .sidebar ul li:hover {
@@ -96,12 +94,11 @@ mark {
 }
 
 .note {
-  width: 80%;
-  margin: 5px auto;
-  background-color: #fff;
+  width: 70%;
+  margin: 20px auto;
+  background-color: #f5f2f0;
   color: black;
-  padding: 5px;
-  border-radius: 5px 5px 5px 5px;
+  padding: 10px 20px;
   box-shadow: 0 0 5px rgba(0, 0, 0, .13);
 }
 
@@ -121,20 +118,37 @@ mark {
   overflow: visible;
 }
 
-.note h3 {
-  padding: 0px;
-  margin: 5px;
+.note-box {
+  background-color: #f5f2f0;
+  padding: 10px 20px;
+  padding-bottom: 0px;
+}
+
+.note h4 {
+  padding: 10px;
+  margin: 0;
   text-decoration: underline;
+  background-color: #f5f2f0;
+  border-radius: 5px 5px 0 0;
+}
+
+.note button {
+  background-color: #464646;
+  color: #FFF;
+  padding: 5px 10px;
+  border: 1px solid #f5f2f0;
+  border-raduis: 3px;
+  margin-top: 0px;
 }
 
 .new-note-box {
   width: 20%;
-  margin: 0px auto;
+  margin: 0px auto 10px auto;
 }
 
 .new-note-box a {
-  border: 2px solid #727072;
-  color: white;
+  border: 1px solid #2f3e46;
+  color: #FFF;
   background-color: #2f3e46;
   padding: 5px;
   border-radius: 0px 0px 5px 5px;
@@ -143,7 +157,8 @@ mark {
 
 .new-note-box a:hover {
   cursor: pointer;
-  background-color: #727072;
+  background-color: #f5f2f0;
+  color: #000;
 }
 
 .active-button {
@@ -225,4 +240,8 @@ mark {
   height: 20px;
   padding: 5px;
   display: flex;
+}
+
+.nav {
+  background-color: #2f3e46;
 }
