@@ -12,6 +12,7 @@
     "prop-types": "15.6.0",
     "react": "15.6.1",
     "react-ace": "^5.5.0",
+    "react-bootstrap": "^0.31.5",
     "react-dom": "15.6.1",
     "react-fontawesome": "1.6.1",
     "react-highlight": "^0.10.0",

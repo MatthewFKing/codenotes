@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import NoteList from './NoteList/NoteList';
 import SideBar from './SideBar/SideBar';
 import { NavLink } from 'react-router-dom';
+import NoteForm from './NoteForm';
 
 import FontAwesome from 'react-fontawesome';
 import { connect } from 'react-redux';
@@ -20,6 +21,7 @@ import {
 
 class App extends Component {
   state = {
+    new: false
   };
 
   componentDidMount(){
@@ -28,6 +30,10 @@ class App extends Component {
 
   toggleNoteEditing = (id) => {
     this.props.toggleEditing(id);
+  }
+  
+  toggleNewNote = () => {
+    this.setState({new: !this.state.new});
   }
 
   updateNoteText = (e, id) => {
@@ -74,6 +80,10 @@ class App extends Component {
 
     return (
       <div className="main">
+      <div className="modal" show="true">
+        <h4>Hi</h4>
+      </div>
+      
       <SideBar
         tagSet={this.props.tags}
         getTagFilter={this.getTagFilter}
@@ -83,12 +93,14 @@ class App extends Component {
     <div className="note-view">
 
     <div className="new-note-box">
-      <NavLink to="/new">
+      <NavLink to="/new" onClick={this.toggleNewNote}>
         <FontAwesome className='fa-plus' name="plus"/>
         New Note
       </NavLink>
       </div>
-
+      
+      {this.state.new ? <NoteForm toggleNewNote={this.toggleNewNote} />: null}
+      
         <NoteList
           notes={this.props.notes}
           handleRemoveNote={this.handleRemoveNote}

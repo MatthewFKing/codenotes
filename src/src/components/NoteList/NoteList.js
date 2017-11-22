@@ -7,8 +7,22 @@ class NoteList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      sortedNotes: []
     }
+  }
+  
+  sortNotes = (notes) => {
+    this.props.filter(note => {
+      if (this.props.noteFilter){
+        return note._id === this.props.noteFilter
+      } else if(this.props.tagFilters.length > 0) {
+        return this.props.tagFilters.every(tag => note.tags.indexOf(tag) > -1)
+      } else if (this.props.searchQuery) {
+        return note.title.toLowerCase().indexOf(this.props.searchQuery.toLowerCase()) > -1 || note.text.toLowerCase().indexOf(this.props.searchQuery.toLowerCase()) > -1
+      } else {
+        return note
+      }
+    })
   }
   render() {
     if (this.props.notes.length < 0) {

@@ -90,7 +90,7 @@ render() {
   }
   return (
 <div>
-  <div className="note-form">
+  <div className="note">
     <form >
       <div className="note-input-group">
 
@@ -126,7 +126,7 @@ render() {
           {languageButton}
         </div>
         <button type="submit" onClick={this.handleNewNote}><FontAwesome className='fa fa-floppy-o'/></button>
-        <button type="button" onClick={this.returnHome}><FontAwesome className='fa fa-times'/></button>
+        <button type="button" onClick={this.props.toggleNewNote}><FontAwesome className='fa fa-times'/></button>
       </div>
     </form>
   </div>

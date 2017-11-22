@@ -103,6 +103,22 @@ mark {
   box-shadow: 2px 2px 2px rgba(0, 0, 0, .2);
 }
 
+.modal-content {
+  margin-top: 200px;
+}
+
+.modal-container {
+  position: relative;
+}
+.modal-container .modal, .modal-container .modal-backdrop {
+  position: absolute;
+}
+
+
+.fade {
+  opacity: 1;
+}
+
 .note input {
   width: 100%;
   margin-bottom: 0px;
@@ -119,7 +135,7 @@ mark {
   overflow: visible;
 }
 
-.edit-note .ace_editor{
+.ace_editor{
   height: 200px !important;
 }
 
@@ -189,7 +205,6 @@ mark {
 
 .note-input-group textarea {
   width: 100%;
-  height: 200px;
   margin-top: 0px;
   border-radius: 0px 0px 5px 5px;
   border-top: none;
