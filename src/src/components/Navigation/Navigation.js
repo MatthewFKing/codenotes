@@ -6,7 +6,7 @@ export default class Navigation extends Component {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <Link className="navbar-brand" to="/">CodeNotes</Link>
-        <ul className="navbar-nav">
+        <ul className="navbar-nav mr-auto">
           <li className="nav-item">
             <Link className="nav-link" to="/">Home</Link>
           </li>
@@ -17,7 +17,7 @@ export default class Navigation extends Component {
             <Link className="nav-link" to="/">Profile</Link>
           </li>
         </ul>
-          <button className="btn btn-primary">Sign in</button>
+        <button className="btn btn-primary">Sign in</button>
       </nav>
     );
   };

@@ -48,14 +48,14 @@ export default function notes(state = initialState, action) {
       return Object.assign({}, state, {
         isFetching: true
       })
-      
+
     case RECEIVE_NOTES:
       return Object.assign({}, state, {
         isFetching: false,
         notes: action.notes,
         lastUpdated: action.receivedAt
       })
-      
+
     case RECEIVE_TAGS:{
       let tagList = [];
       if (state.notes) {
@@ -69,9 +69,9 @@ export default function notes(state = initialState, action) {
         return state
       }
     }
-    
+
     case SET_TAG_FILTERS: {
-      if (state.tagFilters.length === 2) {
+      if (state.tagFilters.length === 1) {
         let subTags = [];
         state.notes.filter(note => note.tags.indexOf(state.tagFilters[0]) !== -1)
           .map((note) => {
@@ -81,8 +81,13 @@ export default function notes(state = initialState, action) {
         subTags.splice((subTags.indexOf(state.tagFilters[0])),1);
         return {
           ...state,
-          tagFilters: [...state.tagFilters.slice(0, -1), ...[action.tag]],
+          tagFilters: [...state.tagFilters, ...[action.tag]],
           subTagSet: subTags
+        }
+      } else if (state.tagFilters.length === 2) {
+        return {
+          ...state,
+          tagFilters: [...state.tagFilters.slice(0, -1), ...[action.tag]]
         }
       } else {
         let subTags = [];
@@ -99,26 +104,26 @@ export default function notes(state = initialState, action) {
         }
       }
     }
-    
+
     case CLEAR_TAG_FILTERS: {
       return Object.assign({}, state, {
         tagFilters: [],
         noteFilter: ''
       })
     }
-    
+
     case SET_NOTE_FILTER: {
       return Object.assign({}, state, {
         noteFilter: action.id
       })
     }
-    
+
     case SET_SEARCH_FILTER: {
       return Object.assign({}, state, {
         searchQuery: action.text
       });
     }
-    
+
     case CREATE_NOTE: {
       const pendingInput = {
         ...state.pendingText,
@@ -171,7 +176,7 @@ export default function notes(state = initialState, action) {
         notes: noteEditing
       }
     }
-    
+
     default:
       return state
   }

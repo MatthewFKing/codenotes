@@ -16,6 +16,7 @@ import {
   deleteNote
 } from '../actions/note';
 
+// Pin notes to the top of the App
 
 class App extends Component {
   state = {
@@ -84,7 +85,7 @@ class App extends Component {
     <div className="new-note-box">
       <NavLink to="/new">
         <FontAwesome className='fa-plus' name="plus"/>
-         Add a Note
+        New Note
       </NavLink>
       </div>
 

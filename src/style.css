@@ -39,7 +39,7 @@ mark {
 }
 
 .sidebar-nav li {
-    position: relative; 
+    position: relative;
     width: 100%;
     padding: 10px;
     border-bottom: 1px solid #E3E0DE;
@@ -138,33 +138,35 @@ mark {
 }
 
 .note button {
-  background-color: #464646;
-  color: #FFF;
+  background-color: #2f3e46;
+  color: #f5f2f0;
   padding: 5px 10px;
-  border: 1px solid #f5f2f0;
+  border: 1px solid #2f3e46;
   border-radius: 3px;
-  margin-top: 0px;
+  margin: 0px 5px 0 5px;
 }
 
 .new-note-box {
   width: 20%;
-  margin: 0px auto 10px auto;
+  margin-left: 15%;
+  margin-top: 25px;
+  display: inline-block;
 }
 
 .new-note-box a {
-  border: 1px solid #f5f2f0;
-  color: black;
-  background-color: #f5f2f0;
-  padding: 5px;
-  border-radius: 0px 0px 5px 5px;
+  color: #f5f2f0;
+  background-color: #2f3e46;
+  padding: 5px 10px;
+  border-radius: 3px;
   text-decoration: none;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, .2);
+  font-size: 18px;
 }
 
 .new-note-box a:hover {
   cursor: pointer;
-  background-color: #E3E0DE;
-  color: #000;
+  background-color: #414F56;
+  color: #FFF;
 }
 
 .active-button {
@@ -225,14 +227,14 @@ mark {
 }
 
 .search-box input {
-  width: 75%;
+  width: 100%;
   padding: 5px;
   border: 1px solid #E3E0DE;
   border-radius: 3px 0 0 3px;
 }
 
 .search-box button {
-  width: 20%;
+  width: 20% !important;
   padding: 0 !important;
   border-radius: 0 3px 3px 0;
 }
