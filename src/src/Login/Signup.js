@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Modal } from 'react-bootstrap';
 
 export default class Signup extends Component {
+  // doesn't look like you need state/lifecycle in this component, you can use a functional component (const) instead of a class  
+
     constructor(props) {
         super(props);
         this.state = {};

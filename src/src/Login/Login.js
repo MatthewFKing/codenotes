@@ -6,6 +6,9 @@ export default class Login extends Component {
         show: false
     }
     
+    // why are you using componentDidMount instead of setting show to true initially?
+    // it also doesn't look like there are any other functions to set state, so you might not need state at all
+
     componentDidMount() {
         this.setState({show: true});
     }

@@ -3,12 +3,53 @@ import { connect } from 'react-redux';
 
 import Note from './Note';
 
+import { 
+  toggleEditing,
+  postUpdatedNote,
+  deleteNote,
+  updateNoteText,
+} from '../../actions/note';
+
 class NoteList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       sortedNotes: []
     }
+  }
+
+  handleNoteUpdate = id => {
+    this.props.notes.map((note) => {
+      if (note._id === id) {
+        this.props.postUpdatedNote(note);
+      }
+      return null;
+    });
+  }
+
+  handleRemoveNote = id => {
+    this.props.notes.map((note) => {
+      if (note._id === id) {
+        this.props.deleteNote(note);
+      }
+      return null;
+    });
+  }
+
+  updateNoteText = (e, id) => {
+    let property = '';
+    let value = '';
+    if (!e.target) {
+      property = "code";
+      value = e;
+    } else if (e.target.name === "editNoteText") {
+      property = "text";
+      value = e.target.value;
+    } else {
+      property = "title";
+      value = e.target.value;
+    }
+    this.props.updateNoteText(id, property, value);
   }
   
   sortNotes = (notes) => {
@@ -24,27 +65,32 @@ class NoteList extends Component {
       }
     })
   }
+  
   render() {
-    if (this.props.notes.length < 0) {
+
+    const { notes, tagFilter, searchQuery, folder } = this.props;
+
+    if (!notes) {
       return <p> Loading Notes... </p>
     }
     return (
-      //move to const in render
-    <div>
-      {this.props.notes.filter((note) =>
-        this.props.noteFilter ? note._id === this.props.noteFilter
-        : this.props.tagFilters.length > 0 ? this.props.tagFilters.every((tag) => note.tags.indexOf(tag) > -1)
-        : this.props.searchQuery ? note.title.toLowerCase().indexOf(this.props.searchQuery.toLowerCase()) > -1
-        || note.text.toLowerCase().indexOf(this.props.searchQuery.toLowerCase()) > -1
+      
+    <div className="notelist">
+      {notes.filter((note) =>
+        tagFilter ? note.tags.indexOf(tagFilter) > -1
+        : folder ? note.folder === folder
+        : searchQuery ? note.title.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1
+        || note.text.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1
         : note )
+
         .map((note, i) =>
         <Note
           key={i}
           note={note}
-          handleRemoveNote={this.props.handleRemoveNote}
-          toggleNoteEditing={this.props.toggleNoteEditing}
-          setNoteText={e => this.props.updateNoteText(e, note._id)}
-          handleNoteUpdate={this.props.handleNoteUpdate}
+          handleRemoveNote={this.handleRemoveNote}
+          toggleEditing={this.props.toggleEditing}
+          setNoteText={e => this.updateNoteText(e, note._id)}
+          handleNoteUpdate={this.handleNoteUpdate}
         />
       )}
     </div>
@@ -52,7 +98,16 @@ class NoteList extends Component {
 }
 
 const mapStateToProps = state => ({
-  searchQuery: state.searchQuery
+  searchQuery: state.searchQuery,
+  folder: state.selectedFolder,
+  tagFilter: state.tagFilter
 });
 
-export default connect(mapStateToProps)(NoteList);
+const mapDispatchToProps = dispatch => ({
+  toggleEditing: (id) => dispatch(toggleEditing(id)),
+  postUpdatedNote: (note) => dispatch(postUpdatedNote(note)),
+  deleteNote: (id) => dispatch(deleteNote(id)),
+  updateNoteText: (id, property, value) => dispatch(updateNoteText(id, property, value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NoteList);

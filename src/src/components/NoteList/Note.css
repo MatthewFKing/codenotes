@@ -1,0 +1,71 @@
+
+.ace_editor, .ace_editor * {
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Droid Sans Mono", "Consolas", monospace !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+}
+
+.note-view {
+  grid-area: main;
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 100px;
+}
+
+mark {
+  background-color: #f5f2f0;
+  color: #0d21a1;
+}
+
+.note {
+  width: 40vw;
+  margin: 25px auto;
+  background-color: #f5f2f0;
+  color: black;
+  padding: 10px 20px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, .2);
+}
+
+.note input {
+  width: 100%;
+  margin-bottom: 0px;
+  border-radius: 5px 5px 0px 0px;
+  font-size:1em;
+  font-weight: bold;
+}
+
+.note textarea {
+  width: 100%;
+  margin-top: 0px;
+  border-radius: 0px 0px 5px 5px;
+  border-top: none;
+  overflow: visible;
+}
+
+.ace_editor{
+  height: 200px !important;
+}
+
+.note-box {
+  background-color: #f5f2f0;
+  padding: 10px 20px;
+  padding-bottom: 0px;
+}
+
+.note h4 {
+  padding: 10px;
+  margin: 0;
+  text-decoration: underline;
+  background-color: #f5f2f0;
+  border-radius: 5px 5px 0 0;
+}
+
+.note button {
+  background-color: #2f3e46;
+  color: #f5f2f0;
+  padding: 5px 10px;
+  border: 1px solid #2f3e46;
+  border-radius: 3px;
+  margin: 0px 5px 0 5px;
+}

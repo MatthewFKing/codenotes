@@ -1,0 +1,12 @@
+pending:
+add Google oAuth
+option to add new folders
+auto detect language?
+different code editor
+
+
+complete:
+update to react v16
+2nd sidebar beside folder bars with tags/note preview
+remove multiple tags (limit to 1)
+

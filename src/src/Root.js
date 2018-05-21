@@ -14,15 +14,17 @@ import { BrowserRouter,
 const store = configureStore();
 
 export default class Root extends Component {
+  state = {
+    isModal: false
+  }
   render() {
     return (
       <Provider store={store}>
         <BrowserRouter>
           <div className="root">
-            <Navigation />
+            {this.state.isModal && <Login /> /* how is isModal ever getting set to true? */ } 
             <Switch>
-              <Route path="/" component={App}/>
-              <Route path="/signin" component={Login}/>
+              <Route exact path="/" component={App}/>
               <Route path="/signup" component={Signup}/>
             </Switch>
           </div>
