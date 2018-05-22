@@ -9,7 +9,8 @@
 .note-view {
   grid-area: main;
   display: flex;
-  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
   padding-left: 100px;
 }
 
@@ -19,8 +20,8 @@ mark {
 }
 
 .note {
+  margin: 20px;
   width: 40vw;
-  margin: 25px auto;
   background-color: #f5f2f0;
   color: black;
   padding: 10px 20px;

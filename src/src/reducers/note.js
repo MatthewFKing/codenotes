@@ -7,10 +7,10 @@ import {
   CLEAR_PENDING_TEXT,
   UPDATE_NOTE_TEXT,
   SET_SEARCH_FILTER,
-  CLEAR_TAG_FILTERS,
   SET_NOTE_FILTER,
   SET_FOLDER,
   SET_TAG_FILTER,
+  ADD_FOLDER
 } from '../actions/note';
 
 const initialState = {
@@ -32,20 +32,21 @@ const initialState = {
       _id: "321",
       folder: "Python"
     },
-    ],
+  ],
   tags: [],
   tagFilter: '',
   pendingText: {
     code: "",
     body: "",
     title: ""
-},
+  },
   selectedFolder: "",
   folders: ["React", "Python", "Java", "HTML"],
 }
 
+
 export default function notes(state = initialState, action) {
-  switch(action.type) {
+  switch (action.type) {
     case REQUEST_NOTES:
       return Object.assign({}, state, {
         isFetching: true
@@ -58,7 +59,7 @@ export default function notes(state = initialState, action) {
         lastUpdated: action.receivedAt
       })
 
-    case RECEIVE_TAGS:{
+    case RECEIVE_TAGS: {
       let tagList = [];
       if (state.notes) {
         state.notes.map(note => {
@@ -76,6 +77,12 @@ export default function notes(state = initialState, action) {
       return Object.assign({}, state, {
         selectedFolder: action.id,
         tagFilter: ''
+      })
+    }
+
+    case ADD_FOLDER: {
+      return Object.assign({}, state, {
+        folders: [...state.folders, action.value]
       })
     }
 
@@ -102,37 +109,37 @@ export default function notes(state = initialState, action) {
         ...state.pendingText,
         [action.target]: action.text
       }
-        return {
-          ...state,
-          pendingText: pendingInput
-        }
+      return {
+        ...state,
+        pendingText: pendingInput
       }
+    }
 
-      case CLEAR_PENDING_TEXT: {
-        return Object.assign({}, state, {
-          pendingText: {
-            code: "",
-            body: "",
-            title: ""
-          }
-        });
-      }
-
-      case UPDATE_NOTE_TEXT: {
-        const updatedNote = state.notes.map(note => {
-          if (note._id === action.id) {
-            return {
-              ...note,
-              [action.property]: action.value
-            }
-          }
-          return note;
-        })
-        return {
-          ...state,
-          notes: updatedNote
+    case CLEAR_PENDING_TEXT: {
+      return Object.assign({}, state, {
+        pendingText: {
+          code: "",
+          body: "",
+          title: ""
         }
+      });
+    }
+
+    case UPDATE_NOTE_TEXT: {
+      const updatedNote = state.notes.map(note => {
+        if (note._id === action.id) {
+          return {
+            ...note,
+            [action.property]: action.value
+          }
+        }
+        return note;
+      })
+      return {
+        ...state,
+        notes: updatedNote
       }
+    }
 
     case TOGGLE_EDITING: {
       const noteEditing = state.notes.map(note => {

@@ -26,13 +26,13 @@ class NoteForm extends Component {
     super(props);
     this.state = {
       language: 'javascript',
-      languageOptions: ['javascript','html','css','python'],
+      languageOptions: ['javascript', 'html', 'css', 'python'],
       toggleLanguage: false
     };
   }
 
   toggleLanguageButton = () => {
-    this.setState({toggleLanguage: !this.state.toggleLanguage});
+    this.setState({ toggleLanguage: !this.state.toggleLanguage });
   };
 
   handleNewLanguage = e => {
@@ -42,16 +42,10 @@ class NoteForm extends Component {
     });
   }
 
-
   handleNewNoteInput = (e) => {
-    const name = e.target.name;
-    const { dispatch } = this.props;
-    dispatch(createNote(name, e.target.value));
-  }
-
-  handleCodeInput = (value) => {
-    const { dispatch } = this.props;
-    dispatch(createNote("code", value));
+    const name = !e.target ? 'code' : e.target.name;
+    const value = !e.target ? e : e.target.value;
+    this.props.createNote(name, value);
   }
 
   handleNewNote = e => {
@@ -62,23 +56,26 @@ class NoteForm extends Component {
       code: this.props.pendingText.code,
       folder: this.props.folder,
     };
-    const { dispatch } = this.props;  
+    const { dispatch } = this.props;
     dispatch(postNote(newNote));
     this.props.toggleNewNote();
   };
 
-render() {
-  let languageButton = null;
-  if (!this.state.toggleLanguage) {
-    languageButton =
+  render() {
+
+    const { folder, pendingText } = this.props;
+
+    let languageButton = null;
+    if (!this.state.toggleLanguage) {
+      languageButton =
         <button
           type="button"
           className="language-button"
           onClick={this.toggleLanguageButton}>
           {this.state.language}
         </button>;
-  } else {
-    languageButton =
+    } else {
+      languageButton =
         <ul>
           {this.state.languageOptions.map(option =>
             <li
@@ -86,52 +83,51 @@ render() {
               {option}
             </li>
           )}
-          </ul>;
-  }
-  return (
-<div>
-  <div className="note">
-    <form >
-      <div className="note-input-group">
+        </ul>;
+    }
+    return (
+      <div className="note">
+        <form >
+          <div className="note-input-group">
 
-        <label><strong> Add a Note:</strong> </label>
-        <label><strong> {this.props.folder}</strong> </label>
-        <input
-          type="text"
-          placeholder="Title"
-          value={this.props.pendingText.title}
-          onChange={this.handleNewNoteInput}
-          name="title">
-        </input>
+            <label><strong> Add a Note:</strong> </label>
+            <label><strong> {folder}</strong> </label>
+            <input
+              type="text"
+              placeholder="Title"
+              value={pendingText.title}
+              onChange={this.handleNewNoteInput}
+              name="title">
+            </input>
 
-        <textarea
-          placeholder="Add a Note"
-          onChange={this.handleNewNoteInput}
-          onKeyPress={this.props.handleKeyPress}
-          value={this.props.pendingText.body}
-          name="body">
-        </textarea>
+            <textarea
+              placeholder="Add a Note"
+              onChange={this.handleNewNoteInput}
+              onKeyPress={this.props.handleKeyPress}
+              value={pendingText.body}
+              name="body">
+            </textarea>
 
-        <AceEditor
-          mode={this.state.language}
-          theme="clouds_midnight"
-          editorProps={{$blockScrolling: true}}
-          name="code"
-          value={this.props.pendingText.code}
-          onChange={this.handleCodeInput}
-          style={braceStyle}
-        />
+            <AceEditor
+              mode={this.state.language}
+              theme="clouds_midnight"
+              editorProps={{ $blockScrolling: true }}
+              name="code"
+              value={pendingText.code}
+              onChange={this.handleNewNoteInput}
+              style={braceStyle}
+            />
 
-        <div className="form-buttons">
-          {languageButton}
-        </div>
-        <button type="submit" onClick={this.handleNewNote}><FontAwesome className='fa fa-floppy-o'/></button>
-        <button type="button" onClick={this.props.toggleNewNote}><FontAwesome className='fa fa-times'/></button>
+            <div className="form-buttons">
+              {languageButton}
+            </div>
+            <button type="submit" onClick={this.handleNewNote}><FontAwesome className='fa fa-floppy-o' /></button>
+            <button type="button" onClick={this.props.toggleNewNote}><FontAwesome className='fa fa-times' /></button>
+          </div>
+        </form>
       </div>
-    </form>
-  </div>
-</div>
-)}
+    )
+  }
 }
 
 const mapStateToProps = state => ({
@@ -139,4 +135,8 @@ const mapStateToProps = state => ({
   folder: state.selectedFolder,
 });
 
-export default connect(mapStateToProps)(NoteForm);
+const mapDispatchToProps = dispatch => ({
+  createNote: (name, value) => dispatch(createNote(name, value)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(NoteForm);

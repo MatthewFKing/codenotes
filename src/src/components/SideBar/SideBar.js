@@ -3,6 +3,7 @@ import FontAwesome from 'react-fontawesome';
 import { connect } from 'react-redux';
 import Folders from './Folders';
 import SubList from './SubList';
+import SubNoteList from './SubNoteList';
 
 import './SideBar.css';
 
@@ -11,6 +12,7 @@ import {
   setNoteFilter,
   setFolder,
   setTagFilter,
+  addFolder
 } from '../../actions/note';
 
 class SideBar extends Component {
@@ -18,20 +20,29 @@ class SideBar extends Component {
     super(props);
     this.state = {
       showNotes: false,
-      tagActive: true,
-
+      tagActive: true
     };
+  }
+
+  toggleSubListView = () => {
+    this.setState({ showNotes: !this.state.showNotes });
   }
 
   render() {
 
-    const { folder, folders, searchQuery, notes } = this.props; 
+    const { folder, folders, searchQuery, notes } = this.props;
 
     let subList = null;
-    if (this.props.folder !== "") {
-      subList = 
-        <SubList 
-          folder={folder} 
+    if (this.props.folder !== "" && !this.state.showNotes) {
+      subList =
+        <SubList
+          folder={folder}
+          notes={notes}
+          setTagFilter={this.props.setTagFilter} />;
+    } else if (this.props.folder !== "" && this.state.showNotes) {
+      subList =
+        <SubNoteList
+          folder={folder}
           notes={notes}
           setTagFilter={this.props.setTagFilter} />;
     }
@@ -50,10 +61,11 @@ class SideBar extends Component {
         </div>
 
         <div className="folder-bar">
-        
+
           <Folders
             folders={folders}
-            setFolder={this.props.setFolder} />
+            setFolder={this.props.setFolder}
+            addFolder={this.props.addFolder} />
 
           {subList}
         </div>
@@ -76,6 +88,7 @@ const mapDispatchToProps = dispatch => ({
   setNoteFilter: (id) => dispatch(setNoteFilter(id)),
   setFolder: (id) => dispatch(setFolder(id)),
   setTagFilter: (tag) => dispatch(setTagFilter(tag)),
+  addFolder: (value) => dispatch(addFolder(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

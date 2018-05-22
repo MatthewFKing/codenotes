@@ -6,6 +6,7 @@ const Folders = props => {
         <div className='folders'>
         <h4>Folders</h4>
             <ul className="subtag-list nav sidebar-nav">
+                <li onClick={() => props.addFolder('new folder')}>+ Add a Folder</li>
                 <li onClick={() => props.setFolder('')}>View All</li>
                 {props.folders.map((folder, i) =>
                     <li key={i}

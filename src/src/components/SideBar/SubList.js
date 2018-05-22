@@ -6,8 +6,9 @@ const SubList = props => {
 
   props.notes.map((note, i) => {
     if (note.folder === props.folder) {
-      return tags = [...tags, ...note.tags.map(tag => tag)]
+      tags = [...tags, ...note.tags.map(tag => tag)]
     }
+    return tags;
   });
   
   return (

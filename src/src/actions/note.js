@@ -11,6 +11,7 @@ export const SET_SEARCH_FILTER = 'SET_SEARCH_FILTER';
 export const SET_NOTE_FILTER = "SET_NOTE_FILTER";
 export const SET_FOLDER = "SET_FOLDER";
 export const SET_TAG_FILTER = "SET_TAG_FILTER";
+export const ADD_FOLDER = "ADD_FOLDER";
 
 const url = 'http://192.168.1.5:3002/'
 
@@ -23,11 +24,11 @@ export const fetchNotes = () => {
         error => console.log("fetch error", error)
       )
       .then(response =>
-      dispatch(receiveTags(response)))
+        dispatch(receiveTags(response)))
   }
 };
 
-
+ 
 
 export const postNote = (note) => {
   return (dispatch) => {
@@ -77,44 +78,49 @@ export const setFolder = (id) => ({
   id
 })
 
+export const addFolder = (value) => ({
+  type: ADD_FOLDER,
+  value
+})
+
 export const updateNoteText = (id, property, value) => ({
-    type: UPDATE_NOTE_TEXT,
-    id,
-    property,
-    value
+  type: UPDATE_NOTE_TEXT,
+  id,
+  property,
+  value
 });
 
 export const requestNotes = () => ({
-    type: REQUEST_NOTES,
+  type: REQUEST_NOTES,
 });
 
 export const receiveNotes = (notes) => ({
-      type: RECEIVE_NOTES,
-      notes,
-      receivedAt: Date.now()
+  type: RECEIVE_NOTES,
+  notes,
+  receivedAt: Date.now()
 });
 
 export const setSearchFilter = (text) => ({
-    type: SET_SEARCH_FILTER,
-    text
+  type: SET_SEARCH_FILTER,
+  text
 });
 
 export const receiveTags = (notes) => ({
-    type: RECEIVE_TAGS,
-    notes
+  type: RECEIVE_TAGS,
+  notes
 });
 
 export const createNote = (target, text) => ({
-    type: CREATE_NOTE,
-    target,
-    text
+  type: CREATE_NOTE,
+  target,
+  text
 });
 
 export const clearPendingText = () => ({
-    type: CLEAR_PENDING_TEXT
+  type: CLEAR_PENDING_TEXT
 });
 
 export const toggleEditing = (id) => ({
-    type: TOGGLE_EDITING,
-    id
+  type: TOGGLE_EDITING,
+  id
 });

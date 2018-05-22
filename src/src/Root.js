@@ -4,7 +4,6 @@ import configureStore from './configureStore';
 import App from './components/App';
 //import NoteForm from './components/NoteForm';
 
-import Navigation from './components/Navigation/Navigation';
 import Login from './Login/Login';
 import Signup from './Login/Signup'
 
